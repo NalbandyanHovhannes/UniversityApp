@@ -21,6 +21,7 @@ namespace UniversityApp.Controllers
             if (RegisterValidation.CheckName(req.Name) &&
                 RegisterValidation.CheckPhone(req.Phone) &&
                 RegisterValidation.CheckUser(req.User))
+
             {
                 // add user to db
                 using (Context db = new Context())
