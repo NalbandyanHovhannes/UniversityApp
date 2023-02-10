@@ -14,5 +14,6 @@ namespace UniversityApp.Models
         public string Password { get; set; }
         public string? Nickname { get; set; }
         public string? Phone { get; set; }
+        public int StatusId { get; set; }
     }
 }
