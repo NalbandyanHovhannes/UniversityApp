@@ -18,30 +18,30 @@ namespace UniversityApp.Controllers
             CreateResponse delValue = new CreateResponse();
             using (Context db = new Context())
             {
-
-                
-                for (int i = 0; i < reqDel.Count; i++)
-                {// Find the user you want to edit
-                    var user = db.Users.Find(reqDel[i].Id);
+                foreach (var item in reqDel)
+                {
+                    var user = db.Users.Find(item.Id);
 
                     if (user != null)
                     {
                         user.StatusId = 1; // "locked user" status
                         db.SaveChanges();
+                        delValue.ResponseMsg = $"User no. {item.Id} deleted.";
+                        delValue.ErrorCode = (int)ErrorType.Success;
+                        delValue.ErrorMsg = ErrorType.Success;
+                        deleteResponse.Add(delValue);
                     }
+
                     else
                     {
                         delValue.ResponseMsg = "User not found";
                         delValue.ErrorCode = (int)ErrorType.NotFound;
                         delValue.ErrorMsg = ErrorType.NotFound;
+                        deleteResponse.Add(delValue);
                     }
-
-
-                    delValue.ResponseMsg = $"User no. {reqDel[i].Id} deleted.";
-                    delValue.ErrorCode = (int)ErrorType.Success;
-                    delValue.ErrorMsg = ErrorType.Success;
-                    deleteResponse.Add(delValue);
                 }
+                
+
             }
             return deleteResponse;
         }
