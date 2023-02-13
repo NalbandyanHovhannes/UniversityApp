@@ -12,34 +12,39 @@ namespace UniversityApp.Controllers
         // DELETE
         [HttpPost]
         [Route("Delete")]
-        public CreateResponse DeleteResponse (DeleteRequest reqDel)
+        public List<CreateResponse> Delete(List<DeleteRequest> reqDel)
         {
-            CreateResponse deleteResponse = new CreateResponse();
+            List<CreateResponse> deleteResponse = new List<CreateResponse>();
+            CreateResponse delValue = new CreateResponse();
             using (Context db = new Context())
             {
-                // Find the user you want to edit
-                var user = db.Users.Find(reqDel.Id);
 
-                if (user != null)
-                {
-                    user.StatusId = 1; // "locked user" status
-                    db.SaveChanges();
-                }    
-                else
-                {
-                    deleteResponse.ResponseMsg = "User not found";
-                    deleteResponse.ErrorCode = (int)ErrorType.NotFound;
-                    deleteResponse.ErrorMsg = ErrorType.NotFound;
+                for (int i = 0; i < reqDel.Count; i++)
+                {// Find the user you want to edit
+                    var user = db.Users.Find(reqDel[i].Id);
+
+                    if (user != null)
+                    {
+                        user.StatusId = 1; // "locked user" status
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        delValue.ResponseMsg = "User not found";
+                        delValue.ErrorCode = (int)ErrorType.NotFound;
+                        delValue.ErrorMsg = ErrorType.NotFound;
+                    }
+
+
+                    delValue.ResponseMsg = $"User no. {reqDel[i].Id} deleted.";
+                    delValue.ErrorCode = (int)ErrorType.Success;
+                    delValue.ErrorMsg = ErrorType.Success;
+                    deleteResponse.Add(delValue);
                 }
-                
-            
             }
-            deleteResponse.ResponseMsg = $"User no. {reqDel.Id} deleted.";
-            deleteResponse.ErrorCode = (int)ErrorType.Success;
-            deleteResponse.ErrorMsg = ErrorType.Success;
             return deleteResponse;
         }
-        
+
         // UPDATE
         [HttpPost]
         [Route("Update")]
@@ -54,14 +59,14 @@ namespace UniversityApp.Controllers
 
                 if (user != null)
                 {
-                    user.Name = reqUpdate.Name; 
-                    user.Surname = reqUpdate.Surname; 
-                    user.User = reqUpdate.User; 
-                    user.Password = reqUpdate.Password; 
-                    user.Nickname = reqUpdate.Nickname; 
+                    user.Name = reqUpdate.Name;
+                    user.Surname = reqUpdate.Surname;
+                    user.User = reqUpdate.User;
+                    user.Password = reqUpdate.Password;
+                    user.Nickname = reqUpdate.Nickname;
                     user.Phone = reqUpdate.Phone;
                     db.SaveChanges();
-                }    
+                }
                 else
                 {
                     updateResponse.ResponseMsg = "User not found";
@@ -74,7 +79,7 @@ namespace UniversityApp.Controllers
             updateResponse.ErrorMsg = ErrorType.Success;
             return updateResponse;
 
-            
+
         }
 
     }
