@@ -13,7 +13,7 @@ namespace UniversityApp.DbConnection
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=University;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=.;Database=University;Trusted_Connection=True;");
         }
     }
 }

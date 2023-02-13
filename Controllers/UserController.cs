@@ -19,6 +19,7 @@ namespace UniversityApp.Controllers
             using (Context db = new Context())
             {
 
+                
                 for (int i = 0; i < reqDel.Count; i++)
                 {// Find the user you want to edit
                     var user = db.Users.Find(reqDel[i].Id);
